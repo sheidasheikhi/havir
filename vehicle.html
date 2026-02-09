@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>ثبت خودرو</title>
+
+<!-- فونت وزیر -->
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+
+<!-- فونت آوسام برای آیکون حذف -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<style>
+  body {
+    font-family: Vazir, sans-serif;
+    direction: rtl;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0 15px;
+  }
+  header {
+    background: #0f4c75;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .container {
+    max-width: 700px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  }
+  .summary {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: right;
+  }
+  .search-box {
+    margin-bottom: 20px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-family: Vazir, sans-serif;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    text-align: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+  }
+  th {
+    background: #e3f2fd;
+    font-weight: 700;
+  }
+  .trash-icon {
+    cursor: pointer;
+    color: #d32f2f;
+    font-size: 20px;
+    transition: color 0.3s;
+  }
+  .trash-icon:hover {
+    color: #9a0000;
+  }
+  .btn-create {
+    margin-top: 25px;
+    background-color: #0f4c75;
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    display: block;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  .btn-create:hover {
+    background-color: #0a3551;
+  }
+</style>
+
+</head>
+<body>
+
+<header>ثبت خودرو</header>
+
+<div class="container">
+  <div class="summary">مجموع خودروها: <span id="totalCount">4</span></div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="جست‌وجو..." />
+  </div>
+
+  <table id="carTable">
+    <thead>
+      <tr>
+        <th>نوع خودرو</th>
+        <th>عملیات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>خاور</td><td><i class="fa-solid fa-trash trash-icon" onclick="deleteCar(this)"></i></td></tr>
+      <tr><td>تریلی بغلدار</td><td><i class="fa-solid fa-trash trash-icon" onclick="deleteCar(this)"></i></td></tr>
+      <tr><td>کامیون جفت</td><td><i class="fa-solid fa-trash trash-icon" onclick="deleteCar(this)"></i></td></tr>
+      <tr><td>تریلی</td><td><i class="fa-solid fa-trash trash-icon" onclick="deleteCar(this)"></i></td></tr>
+    </tbody>
+  </table>
+
+  <button class="btn-create" onclick="window.open('create-car.html', '_blank')">ایجاد خودرو جدید</button>
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const carTable = document.getElementById('carTable').getElementsByTagName('tbody')[0];
+  const totalCountSpan = document.getElementById('totalCount');
+
+  // فیلتر جست‌وجو
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+    for (const row of carTable.rows) {
+      const carType = row.cells[0].textContent.toLowerCase();
+      if (carType.includes(filter)) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    }
+    totalCountSpan.textContent = visibleCount;
+  });
+
+  // حذف خودرو از جدول با تایید
+  function deleteCar(el) {
+    if (confirm('آیا واقعا می‌خواهید این مقدار را حذف کنید؟')) {
+      const row = el.closest('tr');
+      row.remove();
+      // به‌روزرسانی تعداد خودروها
+      totalCountSpan.textContent = carTable.rows.length;
+    }
+  }
+</script>
+
+</body>
+</html>

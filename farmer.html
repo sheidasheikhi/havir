@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>صورت حساب کشاورز</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+
+<style>
+  body {
+    font-family: Vazir, sans-serif;
+    direction: rtl;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+  }
+  header {
+    background: #0f4c75;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+  .summary {
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 17px;
+    font-weight: 600;
+    justify-content: space-between;
+  }
+  .summary div {
+    min-width: 180px;
+    background: #e3f2fd;
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: #0f4c75;
+  }
+  .search-container {
+    max-width: 1200px;
+    margin: 0 auto 15px auto;
+    text-align: right;
+  }
+  #searchInput {
+    width: 250px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: Vazir, sans-serif;
+  }
+  #rowCount {
+    margin-right: 20px;
+    font-weight: 700;
+    color: #0f4c75;
+  }
+  table {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  thead tr {
+    background: #0f4c75;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  th, td {
+    padding: 14px 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+  }
+  tbody tr:hover {
+    background-color: #f0f8ff;
+  }
+  .debt-positive {
+    color: #d32f2f;
+    font-weight: 700;
+  }
+  .debt-negative {
+    color: #388e3c;
+    font-weight: 700;
+  }
+</style>
+
+</head>
+<body>
+
+<header>صورت حساب کشاورز - سال زراعی 1404</header>
+
+<div class="summary">
+  <div>تعداد کل: <span id="totalCount">428</span></div>
+  <div>جمع طلب کشاورز: <span id="totalDebt">43,308,956,791</span> تومان</div>
+  <div>وزن کل چغندر تحویلی: <span id="totalBeetWeight">15,834</span> کیلوگرم</div>
+  <div>مبلغ کل بارها: <span id="totalBarAmount">66,973,701,161</span> تومان</div>
+  <div>جمع پرداخت‌ها: <span id="totalPayments">641,926,000</span> تومان</div>
+  <div>بدهی بذر: <span id="seedDebt">157,500,000</span> تومان</div>
+  <div>بدهی سم: <span id="pesticideDebt">254,805,600</span> تومان</div>
+</div>
+
+<div class="search-container">
+  <span id="rowCount">تعداد سطر: 5</span>
+  <input type="text" id="searchInput" placeholder="جست‌وجو بر اساس نام کشاورز..." />
+</div>
+
+<table id="accountTable">
+  <thead>
+    <tr>
+      <th>نام کشاورز</th>
+      <th>مانده طلب/بدهی (تومان)</th>
+      <th>وزن کل بارها (کیلوگرم)</th>
+      <th>مبلغ کل بارها (تومان)</th>
+      <th>تاریخ آخرین بار تحویلی</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>حسن شاهیوتد</td>
+      <td class="debt-positive">+1,612,349,883</td>
+      <td>602</td>
+      <td>2,693,562,104</td>
+      <td>28/07/1404</td>
+    </tr>
+    <tr>
+      <td>مهدی فلاح</td>
+      <td class="debt-negative">-1,234,567,890</td>
+      <td>500</td>
+      <td>2,000,000,000</td>
+      <td>25/07/1404</td>
+    </tr>
+    <tr>
+      <td>محمدباقر حسنوند</td>
+      <td class="debt-positive">+987,654,321</td>
+      <td>550</td>
+      <td>2,500,000,000</td>
+      <td>27/07/1404</td>
+    </tr>
+    <tr>
+      <td>عیسی اسماعیلی</td>
+      <td class="debt-negative">-123,456,789</td>
+      <td>400</td>
+      <td>1,800,000,000</td>
+      <td>20/07/1404</td>
+    </tr>
+    <tr>
+      <td>سامان پولادی</td>
+      <td class="debt-positive">+543,210,987</td>
+      <td>550</td>
+      <td>2,200,000,000</td>
+      <td>29/07/1404</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const table = document.getElementById('accountTable');
+  const rowCountSpan = document.getElementById('rowCount');
+function updateRowCount(count) {
+    rowCountSpan.textContent = تعداد سطر: ${count};
+  }
+
+  // جست‌وجو بر اساس نام کشاورز
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.trim().toLowerCase();
+    const tbody = table.tBodies[0];
+    let visibleCount = 0;
+
+    for (const row of tbody.rows) {
+      const name = row.cells[0].textContent.toLowerCase();
+      if (name.includes(filter)) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    }
+    updateRowCount(visibleCount);
+  });
+
+  // مرتب سازی جدول بر اساس ستون مانده طلب/بدهی نزولی
+  // فرض شده ستون 1 مانده طلب/بدهی است
+  function sortTableDesc() {
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+
+    rows.sort((a, b) => {
+      // حذف کاما و + و - برای تبدیل به عدد
+      const valA = parseInt(a.cells[1].textContent.replace(/[+,]/g, ''), 10);
+      const valB = parseInt(b.cells[1].textContent.replace(/[+,]/g, ''), 10);
+      return valB - valA;
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+  }
+
+  sortTableDesc();
+</script>
+<div style="max-width: 450px; margin: 20px auto; text-align: left;">
+  <a href="dashboard.html" style="color:#1976d2; font-weight:700; text-decoration:none; font-size:16px;">⬅ بازگشت به داشبورد</a>
+</div>
+<script>
+  Swal.fire('', 'صورت حساب ', 'success');
+</script>
+</body>
+</html>
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>اضافه کردن شهرستان</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+body {
+  font-family: Vazir, sans-serif;
+  direction: rtl;
+  background: #f5f5f5;
+}
+header {
+  background: #0f4c75;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+}
+.container {
+  max-width: 450px;
+  background: #fff;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+select, input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+button {
+  background-color: #0f4c75;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0a3551;
+}
+</style>
+</head>
+
+<body>
+
+<header>اضافه کردن شهرستان</header>
+
+<div class="container">
+  <label>استان</label>
+  <select id="province">
+    <option value="">-- انتخاب استان --</option>
+    <option value="لرستان">لرستان</option>
+    <option value="فارس">فارس</option>
+    <option value="اصفهان">اصفهان</option>
+    <option value="چهارمحال و بختیاری">چهارمحال و بختیاری</option>
+  </select>
+
+  <label>نام شهرستان</label>
+  <input type="text" id="countyName" placeholder="نام شهرستان">
+
+  <button id="submitBtn">ثبت شهرستان</button>
+</div>
+
+<div style="max-width:450px;margin:20px auto;text-align:left">
+  <a href="dashboard.html">⬅ بازگشت به داشبورد</a>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+if (!token) location.href = "index.html";
+
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const province = document.getElementById("province").value;
+  const county = document.getElementById("countyName").value.trim();
+
+  if (!province || !county) {
+    Swal.fire("خطا","همه فیلدها الزامی است","warning");
+    return;
+  }
+
+  const fd = new FormData();
+  fd.append("province", province);
+  fd.append("name", county);
+
+  fetch("https://edu.havirkesht.ir/CityRegister", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    body: fd
+  })
+  .then(async res => {
+    const data = await res.json();
+    if (!res.ok) throw data;
+    return data;
+  })
+  .then(() => {
+    Swal.fire("موفق","شهرستان با موفقیت ثبت شد ✅","success");
+    document.getElementById("province").value = "";
+    document.getElementById("countyName").value = "";
+  })
+  .catch(err => {
+    Swal.fire(
+      "خطا",
+      err?.detail || "ثبت شهرستان انجام نشد ❌",
+      "error"
+    );
+  });
+});
+</script>
+
+</body>
+</html>

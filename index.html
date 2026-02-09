@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="fa">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ورود | هاویرکشت</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      body {
+        font-family: "Tahoma", sans-serif;
+        direction: rtl;
+        margin: 0;
+        padding: 0;
+        background: #e8f5e9; /* سبز کم‌رنگ */
+      }
+
+      /* نوار بالا و پایین صفحه */
+      header,
+      footer {
+        background: #0f3149; /* سبز پررنگ */
+        height: 40px;
+        width: 100%;
+      }
+
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+      }
+
+      .table-box {
+        width: 450px;
+        margin: 100px auto 80px auto; /* فاصله از بالا و پایین */
+        border: 2px solid #0c3552;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        background: #fff;
+      }
+
+      .table-header {
+        padding: 15px;
+        text-align: center;
+        background: #fff; /* سفید، بدون سبز */
+      }
+
+      .table-header img {
+        height: 60px;
+        margin: 0 20px;
+      }
+
+      .table-body {
+        background: #fff;
+        padding: 25px;
+        text-align: center;
+      }
+
+      .table-body h3 {
+        margin-bottom: 20px;
+        color: #0c1e34;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #0d3a58;
+        box-shadow: 0 0 5px rgba(46, 80, 125, 0.5);
+      }
+
+      /* بخش کد کنترلی هم‌تراز */
+      .control-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 12px;
+      }
+
+      .control-group input {
+        flex: 1;
+        margin-left: 10px;
+      }
+
+      .control-group span {
+        background: #2e4e7d;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-weight: bold;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 6px;
+        background: #2e507d;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      button:hover {
+        background: #1b435e;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header></header>
+
+    <div class="table-box">
+      <div class="table-header">
+        <!-- لینک لوگوها رو جایگزین کن -->
+        <!-- <img src="عکس5.webp" alt="جهاد کشاورزی" />
+        <img src="عکس4.png" alt="بانک کشاورزی" /> -->
+      </div>
+      <div class="table-body">
+        <h3>ورود کشاورز</h3>
+        <input id="username" placeholder="نام کاربری" />
+        <input id="password" type="password" placeholder="رمز عبور" />
+
+        <div class="control-group">
+          <input id="controlCode" placeholder="کد کنترلی را وارد کنید" />
+          <span id="generatedCode">4567</span>
+        </div>
+
+        <button onclick="login()">ورود</button>
+      </div>
+    </div>
+
+    <footer></footer>
+
+    <script>
+      const API = "https://edu-api.havirkesht.ir";
+
+      // تولید عدد کنترلی تصادفی
+      const generatedCode = Math.floor(1000 + Math.random() * 9000);
+      document.getElementById("generatedCode").textContent = generatedCode;
+
+      function login() {
+        if (!username.value || !password.value || !controlCode.value) {
+          Swal.fire("خطا", "تمام فیلدها را وارد کنید", "warning");
+          return;
+        }
+
+        if (controlCode.value !== String(generatedCode)) {
+          Swal.fire("خطا", "کد کنترلی اشتباه است", "error");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("username", username.value);
+        formData.append("password", password.value);
+
+        fetch("https://edu-api.havirkesht.ir/token", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Login failed");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            Swal.fire("موفق", "شما با موفقیت وارد شدید", "success");
+            console.log(data, "ssssssssss");
+            localStorage.setItem("token", data.access_token);
+            setInterval(() => {
+              location.href = "dashboard.html";
+            }, 1000);
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire("خطا", "خطا در ورود", "error");
+
+            // اگر صرفاً برای تست گذاشتی
+            // localStorage.setItem("token", "edu-token");
+            // location.href = "dashboard.html";
+          });
+      }
+    </script>
+
+    <script></script>
+  </body>
+</html>

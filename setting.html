@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>تنظیمات پروفایل | هاویرکشت</title>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+body{
+  font-family: Tahoma;
+  direction: rtl;
+  background:#f5f5f5;
+  margin:0;
+}
+
+.container{
+  max-width:480px;
+  margin:80px auto;
+  background:#fff;
+  padding:25px;
+  border-radius:6px;
+  box-shadow:0 0 12px rgba(0,0,0,0.1);
+  text-align:right;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#1976d2;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#155fa0;
+}
+
+.success-screen{
+  display:none;
+  max-width:480px;
+  margin:80px auto;
+  background:#fff;
+  padding:40px;
+  border-radius:8px;
+  box-shadow:0 0 12px rgba(0,0,0,0.15);
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="formContainer">
+  <h2>تغییر رمز عبور</h2>
+  <p>نام کاربری: 1020</p>
+
+  <form id="changePasswordForm">
+    <label>رمز قبلی</label>
+    <input type="password" id="oldPassword">
+
+    <label>رمز جدید</label>
+    <input type="password" id="newPassword">
+
+    <label>تکرار رمز جدید</label>
+    <input type="password" id="confirmPassword">
+
+    <button type="submit">ذخیره تغییرات</button>
+  </form>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <h2>✅ تغییر رمز با موفقیت انجام شد</h2>
+  <button id="backBtn">بازگشت</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const API = "https://edu-api.havirkesht.ir";
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    location.href = "index.html";
+    return;
+  }
+
+  const form = document.getElementById("changePasswordForm");
+  const formContainer = document.getElementById("formContainer");
+  const successScreen = document.getElementById("successScreen");
+  const backBtn = document.getElementById("backBtn");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const oldPass = document.getElementById("oldPassword").value.trim();
+    const newPass = document.getElementById("newPassword").value.trim();
+    const confirmPass = document.getElementById("confirmPassword").value.trim();
+
+    if (!oldPass || !newPass || !confirmPass) {
+      Swal.fire("خطا","همه فیلدها الزامی است","warning");
+      return;
+    }
+
+    if (newPass !== confirmPass) {
+      Swal.fire("خطا","رمز جدید و تکرار آن یکسان نیست","error");
+      return;
+    }
+
+     fetch("https://edu-api.havirkesht.ir/changepassword/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  },
+  body: JSON.stringify({
+    old_password: oldPass,
+    new_password: newPass
+  })
+})
+.then(res => res.json())
+.then(data => {
+  if (data.detail && data.detail.includes("incorrect")) {
+    Swal.fire("خطا", data.detail, "error");
+    return;
+  }
+
+  formContainer.style.display = "none";
+  successScreen.style.display = "block";
+})
+.catch(() => {
+  Swal.fire("خطا", "خطای ارتباط با سرور", "error");
+});
+  });
+
+  backBtn.addEventListener("click", function () {
+    successScreen.style.display = "none";
+    formContainer.style.display = "block";
+    form.reset();
+  });
+
+});
+</script>
+
+</body>
+</html>

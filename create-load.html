@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>ایجاد بار جدید</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+body {
+  font-family: Vazir, sans-serif;
+  direction: rtl;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+header {
+  background: #0f4c75;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: 700;
+}
+.container {
+  max-width: 450px;
+  background: white;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+label {
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 18px;
+  font-size: 16px;
+}
+button {
+  background: #0f4c75;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+button:hover {
+  background: #0a3551;
+}
+.success-screen {
+  display: none;
+  background: #fff;
+  padding: 50px;
+  max-width: 450px;
+  margin: 50px auto;
+  border-radius: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<header>ایجاد بار جدید</header>
+
+<div class="container" id="formContainer">
+<form id="loadForm">
+
+<label>نام کشاورز</label>
+<input type="text" id="farmerName" required>
+
+<label>تاریخ بارگیری</label>
+<input type="date" id="loadingDate" required>
+
+<label>روستا</label>
+<input type="text" id="village" required>
+
+<label>مبدأ</label>
+<input type="text" id="origin" required>
+
+<label>مقصد</label>
+<input type="text" id="destination" required>
+
+<label>وزن بار (تن)</label>
+<input type="number" id="weight" step="0.01" required>
+
+<label>کرایه حمل (تومان/تن)</label>
+<input type="number" id="fare" required>
+
+<button type="submit">ثبت اطلاعات</button>
+</form>
+</div>
+
+<div class="success-screen" id="successScreen">
+<h2>✅ بار جدید با موفقیت ثبت شد</h2>
+<button onclick="goBack()">بازگشت</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const API = "https://edu-api.havirkesht.ir";
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    location.href = "index.html";
+    return;
+  }
+
+  const loadForm = document.getElementById("loadForm");
+  const formContainer = document.getElementById("formContainer");
+  const successScreen = document.getElementById("successScreen");
+
+  loadForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const farmer = document.getElementById("farmerName").value.trim();
+    const date = document.getElementById("loadingDate").value;
+    const village = document.getElementById("village").value.trim();
+    const origin = document.getElementById("origin").value.trim();
+    const destination = document.getElementById("destination").value.trim();
+    const weight = document.getElementById("weight").value;
+    const fare = document.getElementById("fare").value;
+
+    if (!farmer || !date || !village || !origin || !destination || !weight || !fare) {
+      Swal.fire("خطا", "همه فیلدها الزامی است", "warning");
+      return;
+    }
+
+    fetch("https://edu-api.havirkesht.ir/loud", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({
+        farmer: farmer,
+        date: date,
+        village: village,
+        origin: origin,
+        destination: destination,
+        weight: weight,
+        fare: fare
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+
+      if (data.error) {
+        Swal.fire("خطا", data.error, "error");
+        return;
+      }
+
+      formContainer.style.display = "none";
+      successScreen.style.display = "block";
+    })
+    .catch(() => {
+      Swal.fire("خطا", "خطای ارتباط با سرور", "error");
+    });
+  });
+
+  window.goBack = function () {
+    successScreen.style.display = "none";
+    formContainer.style.display = "block";
+    loadForm.reset();
+  };
+
+});
+</script>
+</body>
+</html>

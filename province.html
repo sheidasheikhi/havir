@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>ثبت شهرستان</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+body {
+  font-family: Vazir, sans-serif;
+  direction: rtl;
+  background: #f5f5f5;
+  text-align: center;
+  padding: 80px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+}
+
+select, button {
+  padding: 15px;
+  margin: 15px;
+  font-size: 20px;
+  border-radius: 6px;
+  width: 300px;
+}
+
+button {
+  cursor: pointer;
+  background: #0f4c75;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  background: #0a3551;
+}
+</style>
+</head>
+
+<body>
+
+<h1>ثبت شهرستان</h1>
+
+<select id="citySelect">
+  <option value="">-- شهرستان را انتخاب کنید --</option>
+  <option value="خرم‌آباد">خرم‌آباد</option>
+  <option value="دورود">دورود</option>
+  <option value="کوهدشت">کوهدشت</option>
+  <option value="الیگودرز">الیگودرز</option>
+</select>
+
+<br>
+
+<button type="button" id="registerCityBtn">ثبت شهرستان</button>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+const API = "https://edu-api.havirkesht.ir";
+const token = localStorage.getItem("token");
+
+if (!token) {
+  location.href = "index.html";
+}
+
+document.getElementById("registerCityBtn").addEventListener("click", () => {
+  const city = document.getElementById("citySelect").value;
+
+  if (!city) {
+    Swal.fire("خطا", "لطفاً شهرستان را انتخاب کنید", "warning");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("name", city);
+
+  fetch("https://edu.havirkesht.ir/CityRegiste", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    body: formData
+  })
+  .then(async res => {
+    const data = await res.json();
+    if (!res.ok) throw data;
+    return data;
+  })
+  .then(() => {
+    Swal.fire("موفق", "شهرستان با موفقیت ثبت شد ✅", "success");
+  })
+  .catch(err => {
+    console.log(err);
+    Swal.fire(
+      "خطا",
+      err?.detail || "ثبت شهرستان انجام نشد ❌",
+      "error"
+    );
+  });
+});
+</script>
+
+</body>
+</html>

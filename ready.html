@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>بارهای آماده حمل</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+
+<style>
+  body {
+    font-family: Vazir, sans-serif;
+    direction: rtl;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+  }
+  header {
+    background: #0f4c75;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+  .summary {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    background: #fff;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    font-size: 18px;
+    font-weight: 700;
+    text-align: right;
+  }
+  .search-container {
+    max-width: 1200px;
+    margin: 0 auto 15px auto;
+    text-align: right;
+  }
+  #searchInput {
+    width: 280px;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: Vazir, sans-serif;
+  }
+  table {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  thead tr {
+    background: #0f4c75;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  th, td {
+    padding: 14px 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+  }
+  tbody tr:hover {
+    background-color: #f0f8ff;
+  }
+  .driver-name {
+    color: #0f4c75;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  button#createLoadBtn {
+    display: block;
+    margin: 25px auto;
+    padding: 12px 30px;
+    font-size: 18px;
+    background: #0f4c75;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button#createLoadBtn:hover {
+    background-color: #0a3551;
+  }
+</style>
+
+</head>
+<body>
+
+<header>بارهای آماده حمل</header>
+
+<div class="summary">مجموع بارها: <span id="totalLoads">363</span></div>
+
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="جست‌وجو..." />
+</div>
+
+<table id="loadsTable">
+  <thead>
+    <tr>
+      <th>تاریخ بارگیری</th>
+      <th>وضعیت</th>
+      <th>نام راننده</th>
+      <th>نام کشاورز</th>
+      <th>روستا</th>
+      <th>وزن بار (تن)</th>
+      <th>شماره همراه کشاورز</th>
+      <th>مبدا</th>
+      <th>مقصد</th>
+      <th>کرایه حمل (تومان/تن)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>22/07/1404</td>
+      <td>درخواست درحال حمل</td>
+      <td class="driver-name" onclick="confirmCancel(this)">میرراض ضی</td>
+      <td>جابریوسفوندیا</td>
+      <td>دهرحم</td>
+      <td>16</td>
+      <td>09167488196</td>
+      <td>الشتر</td>
+      <td>اصفهان</td>
+      <td>10,000,000</td>
+    </tr>
+    <tr>
+      <td>22/04/1404</td>
+      <td>درحال حمل</td>
+      <td class="driver-name" onclick="confirmCancel(this)">محمدباقر نظریان</td>
+      <td>جابریوسفوندیا</td>
+      <td>دهرحم</td>
+      <td>25</td>
+      <td>09167488196</td>
+      <td>الشتر</td>
+      <td>اصفهان</td>
+      <td>10,000,000</td>
+    </tr>
+    <tr>
+      <td>21/07/1404</td>
+      <td>درخواست درحال حمل</td>
+      <td class="driver-name" onclick="confirmCancel(this)">علی حسینی</td>
+      <td>سامان پولادی</td>
+      <td>دهرحم</td>
+      <td>18</td>
+      <td>09123456789</td>
+      <td>الشتر</td>
+      <td>خرم آباد</td>
+      <td>9,000,000</td>
+    </tr>
+    <tr>
+      <td>20/07/1404</td>
+      <td>درحال حمل</td>
+      <td class="driver-name" onclick="confirmCancel(this)">رضا محمدی</td>
+      <td>محمدباقر حسنوند</td>
+      <td>دهرحم</td>
+      <td>20</td>
+      <td>09111111111</td>
+      <td>الشتر</td>
+      <td>بروجرد</td>
+      <td>11,000,000</td>
+    </tr>
+    <tr>
+      <td>19/07/1404</td><td>درخواست درحال حمل</td>
+      <td class="driver-name" onclick="confirmCancel(this)">سارا کریمی</td>
+      <td>عیسی اسماعیلی</td>
+      <td>دهرحم</td>
+      <td>15</td>
+      <td>09222222222</td>
+      <td>الشتر</td>
+      <td>خرم آباد</td>
+      <td>10,500,000</td>
+    </tr>
+  </tbody>
+</table>
+
+<button id="createLoadBtn" onclick="window.open('create-load.html', '_blank')">ایجاد بار جدید</button>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const loadsTableBody = document.getElementById('loadsTable').tBodies[0];
+  const totalLoads = document.getElementById('totalLoads');
+
+  // جست‌وجو در جدول
+  searchInput.addEventListener('input', () => {
+    const filter = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+    for (const row of loadsTableBody.rows) {
+      const cellsText = [...row.cells].map(cell => cell.textContent.toLowerCase()).join(' ');
+      if (cellsText.includes(filter)) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    }
+    totalLoads.textContent = visibleCount;
+  });
+
+  // تایید لغو درخواست حمل بار
+  function confirmCancel(el) {
+    const driverName = el.textContent;
+    const userConfirmed = confirm(آیا از لغو درخواست حمل بار راننده "${driverName}" اطمینان دارید؟);
+    if (userConfirmed) {
+      const row = el.closest('tr');
+      row.remove(); // حذف ردیف از جدول
+      alert('درخواست حمل بار لغو شد.');
+      totalLoads.textContent = loadsTableBody.rows.length;
+    }
+  }
+</script>
+<script>
+  Swal.fire('', 'بارهای اماده حمل ', 'success');
+</script>
+</body>
+</html>

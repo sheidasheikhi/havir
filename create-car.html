@@ -1,0 +1,146 @@
+html
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>ایجاد خودرو جدید</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+
+<style>
+  body {
+    font-family: Vazir, sans-serif;
+    direction: rtl;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  header {
+    background: #0f4c75;
+    color: #fff;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .container {
+    max-width: 450px;
+    background: #fff;
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  }
+
+  label {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+
+  select, button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    background-color: #0f4c75;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+  }
+
+  button:hover {
+    background-color: #0a3551;
+  }
+
+  .success-screen {
+    display: none;
+    background: #fff;
+    padding: 50px;
+    max-width: 450px;
+    margin: 50px auto;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  }
+
+  .success-screen h1 {
+    color: green;
+    font-size: 28px;
+  }
+</style>
+</head>
+
+<body>
+
+<header>ایجاد خودرو جدید</header>
+
+<div class="container" id="formContainer">
+  <label for="carType">نوع خودرو:</label>
+  <select id="carType">
+    <option value="">-- انتخاب نوع خودرو --</option>
+    <option value="خاور">خاور</option>
+    <option value="تریلی بغلدار">تریلی بغلدار</option>
+    <option value="کامیون جفت">کامیون جفت</option>
+    <option value="تریلی">تریلی</option>
+  </select>
+
+  <button id="submitBtn">ثبت خودرو</button>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <h1>✅ خودرو با موفقیت ثبت شد</h1>
+</div>
+
+<script>
+const API = "https://edu-api.havirkesht.ir";
+const token = localStorage.getItem("token");
+
+if (!token) {
+  location.href = "index.html";
+}
+
+const submitBtn = document.getElementById("submitBtn");
+const carType = document.getElementById("carType");
+const formContainer = document.getElementById("formContainer");
+const successScreen = document.getElementById("successScreen");
+
+submitBtn.addEventListener("click", () => {
+  if (!carType.value) {
+    alert("نوع خودرو را انتخاب کن");
+    return;
+  }
+
+  fetch("https://edu-api.havirkesht.ir/cars", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({
+      name: carType.value
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("خطا");
+    return res.json();
+  })
+  .then(() => {
+    formContainer.style.display = "none";
+    successScreen.style.display = "block";
+  })
+  // .catch(() => {
+  //   alert("خطا ۴۲۲ - بک‌اند قبول نکرد");
+  // });
+});
+</script>
+
+</body>
+</html>

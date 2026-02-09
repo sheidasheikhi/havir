@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>ثبت قرارداد جدید</title>
+
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+body {
+  font-family: Vazir, sans-serif;
+  direction: rtl;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0 15px;
+}
+header {
+  background: #0f4c75;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+.container {
+  max-width: 500px;
+  background: white;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: Vazir;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  background: #0f4c75;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover {
+  background: #0a3551;
+}
+.success-screen {
+  display: none;
+  text-align: center;
+  background: white;
+  padding: 40px;
+  max-width: 500px;
+  margin: 50px auto;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<header>ثبت قرارداد جدید</header>
+
+<div class="container" id="formContainer">
+  <form id="contractForm">
+
+    <label>شماره قرارداد</label>
+    <input id="contract_number" required>
+
+    <label>استان</label>
+    <input id="province" required>
+
+    <label>شهرستان</label>
+    <input id="county" required>
+
+    <label>روستا</label>
+    <input id="village" required>
+
+    <label>نام کشاورز</label>
+    <input id="farmer_name" required>
+
+    <label>میزان برداشت (تن)</label>
+    <input type="number" id="harvest_amount" required>
+
+    <label>مساحت زمین (هکتار)</label>
+    <input type="number" id="land_area" required>
+
+    <label>تاریخ برداشت</label>
+    <input type="date" id="harvest_date" required>
+
+    <label>سال زراعی</label>
+    <input id="agricultural_year" value="1404" readonly>
+
+    <button type="submit">ثبت قرارداد</button>
+  </form>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <h2>✅ قرارداد با موفقیت ثبت شد</h2>
+  <button onclick="location.reload()">ثبت قرارداد جدید</button>
+</div>
+
+<script>
+const API = "https://edu-api.havirkesht.ir";
+const token = localStorage.getItem("token");
+
+if (!token) {
+  location.href = "index.html";
+}
+
+const form = document.getElementById("contractForm");
+const formContainer = document.getElementById("formContainer");
+const successScreen = document.getElementById("successScreen");
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("contract_number", contract_number.value);
+  formData.append("province", province.value);
+  formData.append("county", county.value);
+  formData.append("village", village.value);
+  formData.append("farmer_name", farmer_name.value);
+  formData.append("harvest_amount", harvest_amount.value);
+  formData.append("land_area", land_area.value);
+  formData.append("harvest_date", harvest_date.value);
+  formData.append("agricultural_year", agricultural_year.value);
+
+ fetch("https://edu-api.havirkesht.ir/commitment", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token
+    },
+    body: formData
+  })
+  .then(res => {
+    if(!res.ok) throw new Error();
+    return res.json();
+  })
+  .then(() => {
+    formContainer.style.display = "none";
+    successScreen.style.display = "block";
+  })
+  .catch(() => {
+    Swal.fire("خطا","ثبت قرارداد انجام نشد","error");
+  });
+});
+</script>
+
+</body>
+</html>

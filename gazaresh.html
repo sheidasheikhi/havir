@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8" />
+<title>گزارش گیری</title>
+
+<!-- لینک فونت وزیر -->
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+
+<style>
+  /* کل صفحه با فونت وزیر */
+  body, table, th, td, div, header, a {
+    font-family: Vazir, Tahoma, Geneva, Verdana, sans-serif !important;
+  }
+  body {
+    margin: 0;
+    direction: rtl;
+    background: #f5f5f5;
+    color: #333;
+  }
+  header {
+    background: #0f4c75;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .year {
+    max-width: 700px;
+    margin: 20px auto 10px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+  }
+  table {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 20px 12px;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle;
+  }
+  th {
+    background: #e3f2fd;
+    font-weight: 700;
+  }
+  tbody tr:nth-child(odd) td {
+    font-weight: 700;
+    background: #e9f3fe;
+  }
+  tbody tr:nth-child(even) td {
+    font-weight: 400;
+    background: #fff;
+  }
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    font-size: 26px;
+    vertical-align: middle;
+  }
+  .icon-arrow-up {
+    color: green;
+    font-weight: bold;
+    margin-left: 5px;
+    font-size: 28px;
+  }
+  .icon-arrow-down {
+    color: red;
+    font-weight: bold;
+    margin-left: 3px;
+    font-size: 28px;
+  }
+  .icon-contract {
+    font-size: 28px;
+    margin-left: 8px;
+  }
+  .icon-plus-circle {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: #1976d2;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 28px;
+    text-align: center;
+    margin-left: 8px;
+  }
+  .icon-money {
+    font-size: 28px;
+    margin-left: 8px;
+    color: #2e7d32;
+  }
+  .icon-scale {
+    font-size: 28px;
+    margin-left: 8px;
+    color: #1976d2;
+  }
+  .icon-status-active {
+    color: green;
+    font-weight: 700;
+  }
+  .back {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto 20px;
+    text-align: left;
+  }
+  .back a {
+    color: #1976d2;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .back a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<header>گزارش گیری</header>
+<div class="year">سال زراعی انتخاب شده: <strong>1404</strong></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>
+        مانده فعلی در حساب پیمانکار
+        <span class="icon">
+          <span class="icon-arrow-up">⬆️</span>
+          <span class="icon-arrow-down">⬇️</span>
+        </span>
+      </th>
+      <th>
+        تعداد قرارداد کشاورزان
+        <span class="icon icon-contract">📄</span>
+      </th>
+      <th>
+        کل تناژ تحویلی کشاورزان
+        <span class="icon icon-scale">⚖️</span>
+      </th>
+      <th>
+        جمع بدهی به کشاورزان
+        <span class="icon icon-money">💰</span>
+      </th>
+      <th>
+        جمع طلب از کشاورزان
+        <span class="icon icon-money">💵</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>۳,۸۲۷,۸۱۴,۵۵۰ تومان</td>
+      <td>۴۲۹ قرارداد</td>
+      <td>۱۶,۰۱۰ کیلوگرم</td>
+      <td>۴۴,۵۳۰,۲۰۹,۶۸۵ تومان</td>
+      <td>۱,۲۲۱,۲۵۲,۷۳۴ تومان</td>
+    </tr>
+    <tr>
+      <th>
+        مانده تا تسویه کشاورزان
+        <span class="icon icon-money">🧾</span>
+      </th>
+      <th>
+        کارمزد پیمانکار
+        <span class="icon icon-plus-circle">+</span>
+      </th>
+      <th>
+        سود پیمانکار از بذر
+        <span class="icon icon-money">🌱</span>
+      </th>
+      <th>
+        سود پیمانکار از سم
+        <span class="icon icon-money">🧪</span>
+</th>
+      <th>
+        وضعیت کلی پیمانکار
+      </th>
+    </tr>
+    <tr>
+      <td>۴۳,۳۰۸,۹۵۶,۹۵۱ تومان</td>
+      <td>۶۶۹,۷۳۷,۰۱۳ تومان</td>
+      <td>۰ تومان</td>
+      <td>۰ تومان</td>
+      <td class="icon-status-active" style="font-weight:700; color:green;">۳,۸۲۷,۸۱۴,۵۵۰</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="back"><a href="dashboard.html">⬅ بازگشت به داشبورد</a></div>
+<script>
+  Swal.fire('', 'گزارش گیری ', 'success');
+</script>
+</body>
+</html>
