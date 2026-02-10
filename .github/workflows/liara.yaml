@@ -19,3 +19,4 @@ jobs:
           npm i -g @liara/cli@9
           liara deploy --app="sheida" --api-token="$LIARA_TOKEN" --no-app-logs
   # trigger liara deploy
+# 1
