@@ -13,77 +13,83 @@
         direction: rtl;
         margin: 0;
         padding: 0;
-        background: #e8f5e9; /* سبز کم‌رنگ */
+        background: #f2f4f7; /* پس‌زمینه روشن خنثی */
       }
 
-      /* نوار بالا و پایین صفحه */
       header,
       footer {
-        background: #0f3149; /* سبز پررنگ */
-        height: 40px;
+        background: #0f3149; /* رنگ سرمه‌ای اصلی */
+        height: 50px;
         width: 100%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
       }
 
       header {
         position: fixed;
         top: 0;
         left: 0;
+        z-index: 1000;
       }
 
       footer {
         position: fixed;
         bottom: 0;
         left: 0;
+        text-align: center;
+        color: #fff;
+        line-height: 50px;
+        font-size: 14px;
       }
 
       .table-box {
-        width: 450px;
-        margin: 100px auto 80px auto; /* فاصله از بالا و پایین */
-        border: 2px solid #0c3552;
+        width: 420px;
+        margin: 120px auto 100px auto;
         border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        background: #fff;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+        background: #ffffff;
+        border: 1px solid #0c3552; /* سرمه‌ای تیره برای فرم */
       }
 
       .table-header {
-        padding: 15px;
+        padding: 20px;
         text-align: center;
-        background: #fff; /* سفید، بدون سبز */
+        background: #f9f9f9;
       }
 
       .table-header img {
         height: 60px;
-        margin: 0 20px;
+        margin: 0 15px;
       }
 
       .table-body {
-        background: #fff;
-        padding: 25px;
+        padding: 30px 25px;
         text-align: center;
       }
 
       .table-body h3 {
-        margin-bottom: 20px;
-        color: #0c1e34;
+        margin-bottom: 25px;
+        color: #0f3149;
+        font-size: 22px;
+        font-weight: bold;
       }
 
       input {
         width: 100%;
-        padding: 10px;
+        padding: 12px 10px;
         margin-top: 12px;
         border-radius: 6px;
-        border: 1px solid #ccc;
+        border: 1px solid #b0b0b0;
         font-size: 14px;
+        transition: all 0.3s ease;
       }
 
       input:focus {
         outline: none;
-        border-color: #0d3a58;
-        box-shadow: 0 0 5px rgba(46, 80, 125, 0.5);
+        border-color: #0f3149; /* رنگ سرمه‌ای برای focus */
+        box-shadow: 0 0 8px rgba(15, 49, 73, 0.3);
       }
 
-      /* بخش کد کنترلی هم‌تراز */
       .control-group {
         display: flex;
         align-items: center;
@@ -97,30 +103,44 @@
       }
 
       .control-group span {
-        background: #2e4e7d;
+        background: #0f3149; /* سرمه‌ای */
         color: #fff;
-        padding: 8px 15px;
+        padding: 10px 16px;
         border-radius: 6px;
         font-weight: bold;
         min-width: 60px;
         text-align: center;
+        font-size: 14px;
       }
 
       button {
         width: 100%;
-        padding: 10px;
-        margin-top: 15px;
-        border-radius: 6px;
-        background: #2e507d;
+        padding: 12px;
+        margin-top: 20px;
+        border-radius: 8px;
+        background: #0f3149; /* سرمه‌ای */
         color: white;
         border: none;
         font-weight: bold;
+        font-size: 16px;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: all 0.3s ease;
       }
 
       button:hover {
-        background: #1b435e;
+        background: #0b253b; /* سرمه‌ای تیره‌تر */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ریسپانسیو */
+      @media (max-width: 480px) {
+        .table-box {
+          width: 90%;
+          margin: 100px auto 80px auto;
+        }
+        .table-body h3 {
+          font-size: 20px;
+        }
       }
     </style>
   </head>
@@ -130,12 +150,12 @@
 
     <div class="table-box">
       <div class="table-header">
-        <!-- لینک لوگوها رو جایگزین کن -->
+        <!-- لوگوها -->
         <!-- <img src="عکس5.webp" alt="جهاد کشاورزی" />
         <img src="عکس4.png" alt="بانک کشاورزی" /> -->
       </div>
       <div class="table-body">
-        <h3>  ورود کاربران</h3>
+        <h3>ورود کاربران</h3>
         <input id="username" placeholder="نام کاربری" />
         <input id="password" type="password" placeholder="رمز عبور" />
 
@@ -148,13 +168,11 @@
       </div>
     </div>
 
-    <footer></footer>
+    <footer>© 2026 هاویرکشت</footer>
 
     <script>
       const API = "https://edu-api.havirkesht.ir";
-
-      // تولید عدد کنترلی تصادفی
-      const generatedCode = Math.floor(1000 + Math.random() * 9000);
+const generatedCode = Math.floor(1000 + Math.random() * 9000);
       document.getElementById("generatedCode").textContent = generatedCode;
 
       function login() {
@@ -172,35 +190,25 @@
         formData.append("username", username.value);
         formData.append("password", password.value);
 
-        fetch("https://edu-api.havirkesht.ir/token", {
+        fetch(API + "/token", {
           method: "POST",
           body: formData,
         })
           .then((res) => {
-            if (!res.ok) {
-              throw new Error("Login failed");
-            }
+            if (!res.ok) throw new Error("Login failed");
             return res.json();
           })
           .then((data) => {
             Swal.fire("موفق", "شما با موفقیت وارد شدید", "success");
-            console.log(data, "ssssssssss");
             localStorage.setItem("token", data.access_token);
-            setInterval(() => {
-              location.href = "dashboard.html";
-            }, 1000);
+            setTimeout(() => location.href = "dashboard.html", 1000);
           })
           .catch((err) => {
             console.error(err);
             Swal.fire("خطا", "خطا در ورود", "error");
-
-            // اگر صرفاً برای تست گذاشتی
-            // localStorage.setItem("token", "edu-token");
-            // location.href = "dashboard.html";
           });
       }
     </script>
-
-    <script></script>
   </body>
 </html>
+
