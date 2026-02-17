@@ -14,7 +14,7 @@ jobs:
           node-version: "22"
       - name: update-liara
         env:
-          LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN }}
+          LIARA_TOKEN: ${{ secrets.LIARA_API_TOKEN}}
         run: |
           npm i -g @liara/cli@9
           liara deploy --app="sheidasheikhy" --api-token="$LIARA_TOKEN" --no-app-logs
